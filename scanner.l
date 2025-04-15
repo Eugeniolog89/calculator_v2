@@ -4,11 +4,15 @@
 #include <string.h>
 
 extern FILE *yyin;
-
 int yylex();
 
 void report_error(const char *msg) {
     fprintf(stderr, "Error: %s\n", msg);
+}
+
+// Definición de yyerror para evitar el error de "undefined reference"
+void yyerror(const char *msg) {
+    report_error(msg);
 }
 
 #define TABLE_LIMIT 100
@@ -34,7 +38,8 @@ void register_entry(char *id, int category) {
 }
 
 void set_value(char *id, double val) {
-    for (int i = 0; i < table_count; ++i) {
+    int i;
+    for (i = 0; i < table_count; ++i) {
         if (strcmp(table[i].identifier, id) == 0) {
             table[i].val = val;
             return;
@@ -44,7 +49,8 @@ void set_value(char *id, double val) {
 }
 
 double get_value(char *id) {
-    for (int i = 0; i < table_count; ++i) {
+    int i;
+    for (i = 0; i < table_count; ++i) {
         if (strcmp(table[i].identifier, id) == 0) {
             return table[i].val;
         }
